@@ -9,4 +9,4 @@ const Sleep = mongoose.model(
     })
 );
 
-module.exports = User;
+module.exports = Sleep;
