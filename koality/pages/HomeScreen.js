@@ -11,7 +11,7 @@ const HomeScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={{ flex: 1, padding: 16 }}>
-        
+          <p id="searchResults"></p>
       </View>
     </SafeAreaView>
   );
