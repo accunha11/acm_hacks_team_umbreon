@@ -12,6 +12,49 @@ import {
   Pressable
  } from 'react-native';
 
+function handleSubmit(e) {
+  e.preventDefault();
+  console.log("meh");
+}
+
+function searchExercise() {
+  document.getElementById("hi").innerHTML = ""
+  var query = document.getElementById("mySelect").value;
+  fetch(`https://exercisedb.p.rapidapi.com/exercises/target/${query}`, {
+	"method": "GET",
+	"headers": {
+		"x-rapidapi-host": "exercisedb.p.rapidapi.com",
+		"x-rapidapi-key": "9b58c6ab21mshdedc4f4547bef06p17c9a4jsn1a0b5e97982a"
+	}
+  })
+  .then(response => response.json())
+  .then((jsonData) => {
+    const results = jsonData.map(element => element.name);
+    const urls = jsonData.map(element => element.gifUrl);
+    console.log(results);
+    getSearchResults(results);
+  });
+}
+
+function getSearchResults(results) {
+  const list = document.getElementById("hi")
+  results.forEach(result => {
+    const element = document.createElement("li")
+    element.innerText = result;
+    list.appendChild(element);
+  });
+}
+
+function searchBar() {
+  return (
+    <form onSubmit={handleSubmit}>
+      <p></p>
+      <input type="text" placeholder="search for a recipe"></input>
+      <button style={{bottom:"90%"}} onClick={searchExercise}> Search </button>
+    </form>
+  )
+}
+
 const FoodScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);
   return (
@@ -52,6 +95,8 @@ const FoodScreen = () => {
       >
         <Text style={styles.textStyle}>(Select recipe)</Text>
       </Pressable>
+      {searchBar()}
+      <p id="hi"></p>
     </View>
   );
 }

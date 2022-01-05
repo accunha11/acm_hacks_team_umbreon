@@ -1,14 +1,9 @@
 import * as React from 'react';
-import { View, Text, SafeAreaView, Button} from 'react-native';
+import {useState} from 'react';
+import { View, Text, SafeAreaView, Button, Modal, Pressable, StyleSheet} from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPauseCircle } from '@fortawesome/free-regular-svg-icons'
-import styled from 'styled-components';
 import logo from '../koala.gif';
-
-const toggle = styled.button`
-  border: 0px;
-  cursor: pointer;
-`;
 
 function handleSubmit(e) {
   e.preventDefault();
@@ -20,7 +15,6 @@ function Timer() {
   
   const setTimer = () => {
     document.getElementById("koala").style.display='block'
-    document.getElementById("hi").innerHTML = "";
     var input = document.getElementById("TimeInput").value
     var t1me = input * 60, display = document.querySelector('#time');
     TimeSet(t1me, display);
@@ -64,16 +58,17 @@ function Timer() {
         id='TimeInput'
         placeholder="Set Timer"
         />
-      <button onClick={setTimer}> Set Timer </button>
+      <button style={{backgroundColor: "white", border: "0px", borderRadius: "20px"}} onClick={setTimer}> Set Timer </button>
       <p> </p>
-      <toggle
-        onClick={toggleTimer}>
+      <Pressable
+        style={{backgroundColor: "transparent", border: "0px", top: "50%", alignItems:"center"}}
+        onPress={toggleTimer}>
           <FontAwesomeIcon 
             icon={faPauseCircle}
             size="4x"
             inverse
           />
-      </toggle>
+      </Pressable>
     </form>
   )
 }
@@ -125,29 +120,60 @@ function searchBar() {
         <option value="cardiovascular system">cardio</option>
         <option value="biceps">biceps</option>
       </select>
-      <button onClick={searchExercise}> Search </button>
+      <button style={{bottom:"90%"}} onClick={searchExercise}> Search </button>
     </form>
   )
 }
 
 
 const ExerciseScreen = () => {
+  const [modalVisible, setModalVisible] = useState(false);
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <View style={{ flex: 1, padding: 16 , textAlign: "center", 
-                  backgroundColor:"#B3CBF1", overflowY:"scroll"}}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#6ab890"}}>
+      <View style={{ flex: 1, padding: 16 , textAlign: "center"
+                  }}>
+          <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          >
+            <View style={{alignItems:"center", marginTop: "22", flex: 1, justifyContent: "center", overflowY:"scroll"}}>
+              <View style={{
+                shadowColor: "#000", 
+                backgroundColor: "white",
+                alignItems: "left",
+                borderRadius: 20,
+                padding: 150,
+                shadowOffset: 
+                {width: 0, height: 2},}}>
+                {searchBar()}
+                <p id="hi"></p>
+                <Pressable
+                  style={{}}
+                  onPress={() => setModalVisible(!modalVisible)}
+                >
+                  <Text> close </Text>
+                </Pressable>
+              </View>
+            </View>
+          </Modal>
           <div>
-            {searchBar()}
+            <Pressable
+              onPress={() => setModalVisible(true)}
+            >
+              <Text style={{color: "white", fontFamily: "Tahoma"}}>Search for Exercises!</Text>
+            </Pressable>
             <p></p>
             {Timer()}
             <p 
               id="Timer"
               style={{
-                position:"relative",
+                alignItems:"center",
+                top: "50%", 
+                //position:"relative",
                 padding:"8px 16px"
               }}>
               </p>
-            <p id="hi"></p>
             <img 
               id="koala"
               style={{
