@@ -5,8 +5,8 @@ const router = express.Router();
 
 /* POST sleep entry */
 router.post('/', async(req, res) => {
-  const { username, hours, date } = req.body;
-  const newSleepEntry = { username, hours, date };
+  const { user, hours, date } = req.body;
+  const newSleepEntry = { user, hours, date };
   const sleep = await Sleep.create(newSleepEntry);
   res.status(200).json({ sleep });
 });

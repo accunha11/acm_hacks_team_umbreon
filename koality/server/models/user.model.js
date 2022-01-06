@@ -5,7 +5,7 @@ const User = mongoose.model(
     new mongoose.Schema({
         username: { type: String, lowercase: true, required: [true, "required username"]},
         email: { type: String, lowercase: true, required: [true, "required email"], match: [/\S+@\S+\.\S+/, "invalid email"]},
-        password: String
+        password: { type: String, required: true }
     }, {
         timestamps: true
     })

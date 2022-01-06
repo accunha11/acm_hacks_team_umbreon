@@ -12,8 +12,8 @@ const router = express.Router();
 
 /* POST exercise entry */
 router.post('/', async(req, res) => {
-  const { username, goal, duration, date } = req.body;
-  const newExerciseEntry = { username, goal, duration, date};
+  const { user, type, duration, date } = req.body;
+  const newExerciseEntry = { user, type, duration, date};
   const exercise = await Exercise.create(newExerciseEntry);
   res.status(200).json({ exercise });
 });
