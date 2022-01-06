@@ -3,7 +3,7 @@ const mongoose = require("mongoose")
 const Recipe = mongoose.model(
     "Recipe",
     new mongoose.Schema({
-        username: { type: String, required: true},
+        user: { type: mongoose.Types.ObjectId, required: true},
         isFavorite: { type: Boolean, required: true},
         isToday: { type: Boolean, required: true},
         instructions: { type: String, required: true},
@@ -14,4 +14,4 @@ const Recipe = mongoose.model(
     })
 );
 
-module.exports = Exercise;
+module.exports = Recipe;

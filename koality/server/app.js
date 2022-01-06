@@ -4,6 +4,9 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 
 const usersRouter = require('./routes/users');
+const exerciseRouter = require('./routes/exercise');
+const recipeRouter = require('./routes/recipe');
+const sleepRouter = require('./routes/sleep');
 
 const app = express();
 
@@ -12,6 +15,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use('/users', usersRouter);
+app.use('/exercise', exerciseRouter);
+app.use('/recipe', recipeRouter);
+app.use('/sleep', sleepRouter);
+
 
 dotenv.config();
 
