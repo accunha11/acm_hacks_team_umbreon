@@ -7,6 +7,7 @@ const usersRouter = require('./routes/users');
 const exerciseRouter = require('./routes/exercise');
 const recipeRouter = require('./routes/recipe');
 const sleepRouter = require('./routes/sleep');
+const moodRouter = require('./routes/mood');
 
 const app = express();
 
@@ -18,6 +19,8 @@ app.use('/users', usersRouter);
 app.use('/exercise', exerciseRouter);
 app.use('/recipe', recipeRouter);
 app.use('/sleep', sleepRouter);
+app.use('/mood', moodRouter);
+
 
 
 dotenv.config();
