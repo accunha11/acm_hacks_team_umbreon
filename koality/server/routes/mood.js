@@ -11,5 +11,25 @@ router.post('/', async(req, res) => {
   res.status(200).json({ moodEntry });
 });
 
+/* GET mood data for user today */
+router.get('/', async (req, res) => {
+  try {
+    var startOfToday = new Date();
+    startOfToday.setHours(0,0,0,0);
+    
+    var thisUser = req.query.user;
+    console.log(thisUser);
+    const data = await Mood.find({
+      "user": thisUser,
+      "createdAt": { "$gte": startOfToday}
+    })
+    res.status(200).json({ data });
+
+  } catch(err) {
+    res.status(500).send();
+  }
+  
+});
+
 module.exports = router;
 

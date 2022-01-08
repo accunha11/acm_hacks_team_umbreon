@@ -11,10 +11,29 @@ router.post('/', async(req, res) => {
   res.status(200).json({ exercise });
 });
 
-/* GET exercise listings */
-router.get('/', async (req, res) => {
-  const exercise = await Exercise.findAll(); 
-  res.status(200).json({ exercise });
+
+/* GET exercise data for user today */
+router.get('/:exercise', async (req, res) => {
+  try {
+    const data = await Exercise.find({
+      "type": req.params.type
+    })
+    res.status(200).json({ data });
+
+  } catch(err) {
+    res.status(500).send();
+  }
+  
 });
+
+// /* GET exercise data for user */
+// router.get('/', async (req, res) => {
+//   try {
+//     const exercise = await Exercise.findAll(); 
+//     res.json(data);
+//   } catch(err) {
+//     res.status(500).send();
+//   }
+// });
 
 module.exports = router;

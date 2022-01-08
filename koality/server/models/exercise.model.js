@@ -14,10 +14,6 @@ const Exercise = mongoose.model(
         duration: { 
             type: Number, 
             required: true 
-        },
-        date: { 
-            type: Date, 
-            required: true 
         }
     }, {
         timestamps: true
