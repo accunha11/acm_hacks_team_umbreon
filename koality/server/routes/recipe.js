@@ -53,11 +53,13 @@ router.get('/filter', async (req, res) => {
     
     var thisUser = req.query.user;
     var isToday = req.query.isToday;
+    var isFavorite = req.query.isFavorite;
     var tags = req.query.tags;
 
     const data = await Recipe.find({
       "user": thisUser,
       "isToday": isToday,
+      "isFavorite": isFavorite,
       "tags" : { $in: tags}
     })
     
