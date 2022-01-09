@@ -17,27 +17,23 @@ function handleSubmit(e) {
   console.log("meh");
 }
 
-function searchExercise() {
-  document.getElementById("hi").innerHTML = ""
-  var query = document.getElementById("mySelect").value;
-  fetch(`https://exercisedb.p.rapidapi.com/exercises/target/${query}`, {
-	"method": "GET",
-	"headers": {
-		"x-rapidapi-host": "exercisedb.p.rapidapi.com",
-		"x-rapidapi-key": "9b58c6ab21mshdedc4f4547bef06p17c9a4jsn1a0b5e97982a"
-	}
+function searchFood() {
+  document.getElementById("recipeResults").innerHTML = ""
+  var query = document.getElementById("mySearch").value;
+  fetch(`https://api.spoonacular.com/recipes/autocomplete?apiKey=0a4860b8d01f4a61bd0787c2b4b7ad6f&number=10&query=${query}`, {
+	"method": "GET"
   })
   .then(response => response.json())
   .then((jsonData) => {
-    const results = jsonData.map(element => element.name);
-    const urls = jsonData.map(element => element.gifUrl);
-    console.log(results);
+    const results = jsonData.map(element => element.title);
+    const urls = jsonData.map(element => `https://api.spoonacular.com/recipes/`+element.id+'/analyzedInstructions');
+    console.log(jsonData);
     getSearchResults(results);
   });
 }
 
 function getSearchResults(results) {
-  const list = document.getElementById("hi")
+  const list = document.getElementById("recipeResults")
   results.forEach(result => {
     const element = document.createElement("li")
     element.innerText = result;
@@ -49,8 +45,8 @@ function searchBar() {
   return (
     <form onSubmit={handleSubmit}>
       <p></p>
-      <input type="text" placeholder="search for a recipe"></input>
-      <button style={{bottom:"90%"}} onClick={searchExercise}> Search </button>
+      <input id="mySearch" type="text" placeholder="search for a recipe"></input>
+      <button style={{bottom:"90%"}} onClick={searchFood}> Search </button>
     </form>
   )
 }
@@ -96,7 +92,7 @@ const FoodScreen = () => {
         <Text style={styles.textStyle}>(Select recipe)</Text>
       </Pressable>
       {searchBar()}
-      <p id="hi"></p>
+      <p id="recipeResults"></p>
     </View>
   );
 }
