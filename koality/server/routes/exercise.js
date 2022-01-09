@@ -13,10 +13,16 @@ router.post('/', async(req, res) => {
 
 
 /* GET exercise data for user today */
-router.get('/:exercise', async (req, res) => {
+router.get('/', async (req, res) => {
   try {
+    var startOfToday = new Date();
+    startOfToday.setHours(0,0,0,0);
+    
+    var thisUser = req.query.user;
+    console.log(thisUser);
     const data = await Exercise.find({
-      "type": req.params.type
+      "user": thisUser,
+      "createdAt": { "$gte": startOfToday}
     })
     res.status(200).json({ data });
 
@@ -26,14 +32,26 @@ router.get('/:exercise', async (req, res) => {
   
 });
 
-// /* GET exercise data for user */
-// router.get('/', async (req, res) => {
-//   try {
-//     const exercise = await Exercise.findAll(); 
-//     res.json(data);
-//   } catch(err) {
-//     res.status(500).send();
-//   }
-// });
+/* GET exercise data for user over past month */
+router.get('/progress', async (req, res) => {
+  try {
+    var startOfLastMonth = new Date();
+    startOfLastMonth.setDate(startOfLastMonth.getDate() - 30);
+    startOfLastMonth.setHours(0,0,0,0);
+    
+    var thisUser = req.query.user;
+    console.log(thisUser);
+    const data = await Exercise.find({
+      "user": thisUser,
+      "createdAt": { "$gte": startOfLastMonth}
+    })
+    res.status(200).json({ data });
+
+  } catch(err) {
+    res.status(500).send();
+  }
+  
+});
+  
 
 module.exports = router;
