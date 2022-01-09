@@ -11,4 +11,42 @@ router.post('/', async(req, res) => {
   res.status(200).json({ recipe });
 });
 
+
+/* GET all recipe data for user */
+router.get('/', async (req, res) => {
+  try {
+    var thisUser = req.query.user;
+    const data = await Recipe.find({
+      "user": thisUser
+    })
+    res.status(200).json({ data });
+
+  } catch(err) {
+    res.status(500).send();
+  }
+  
+});
+
+/* GET recipe data for user today */
+router.get('/today', async (req, res) => {
+  try {
+    
+    var thisUser = req.query.user;
+    var isToday = req.query.isToday;
+
+    const data = await Recipe.find({
+      "user": thisUser,
+      "isToday": isToday
+    })
+    
+    res.status(200).json({ data });
+
+  } catch(err) {
+    res.status(500).send();
+  }
+  
+});
+
+
+
 module.exports = router;
