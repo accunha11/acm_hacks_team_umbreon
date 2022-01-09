@@ -12,6 +12,45 @@ import {
   Pressable
  } from 'react-native';
 
+function handleSubmit(e) {
+  e.preventDefault();
+  console.log("meh");
+}
+
+function searchFood() {
+  document.getElementById("recipeResults").innerHTML = ""
+  var query = document.getElementById("mySearch").value;
+  fetch(`https://api.spoonacular.com/recipes/autocomplete?apiKey=0a4860b8d01f4a61bd0787c2b4b7ad6f&number=10&query=${query}`, {
+	"method": "GET"
+  })
+  .then(response => response.json())
+  .then((jsonData) => {
+    const results = jsonData.map(element => element.title);
+    const urls = jsonData.map(element => `https://api.spoonacular.com/recipes/`+element.id+'/analyzedInstructions');
+    console.log(jsonData);
+    getSearchResults(results);
+  });
+}
+
+function getSearchResults(results) {
+  const list = document.getElementById("recipeResults")
+  results.forEach(result => {
+    const element = document.createElement("li")
+    element.innerText = result;
+    list.appendChild(element);
+  });
+}
+
+function searchBar() {
+  return (
+    <form onSubmit={handleSubmit}>
+      <p></p>
+      <input id="mySearch" type="text" placeholder="search for a recipe"></input>
+      <button style={{bottom:"90%"}} onClick={searchFood}> Search </button>
+    </form>
+  )
+}
+
 const FoodScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);
   return (
@@ -52,6 +91,8 @@ const FoodScreen = () => {
       >
         <Text style={styles.textStyle}>(Select recipe)</Text>
       </Pressable>
+      {searchBar()}
+      <p id="recipeResults"></p>
     </View>
   );
 }
