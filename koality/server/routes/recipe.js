@@ -47,6 +47,28 @@ router.get('/today', async (req, res) => {
   
 });
 
+/* GET recipe data for user with filters */
+router.get('/filter', async (req, res) => {
+  try {
+    
+    var thisUser = req.query.user;
+    var isToday = req.query.isToday;
+    var tags = req.query.tags;
+
+    const data = await Recipe.find({
+      "user": thisUser,
+      "isToday": isToday,
+      "tags" : { $in: tags}
+    })
+    
+    res.status(200).json({ data });
+
+  } catch(err) {
+    res.status(500).send();
+  }
+  
+});
+
 
 
 module.exports = router;
