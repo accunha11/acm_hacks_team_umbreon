@@ -11,6 +11,8 @@ import {
   Modal, 
   Pressable
  } from 'react-native';
+ 
+import logo from '../koalaeat.gif';
 
 let results = 0;
 let resultsSize = 0;
@@ -116,51 +118,68 @@ function makeButtonList(results) {
 const FoodScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);
   return (
-    <View style={styles.centeredView}>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}> Recipe Name </Text>
-            
-            <Button
-            title="Favorite"
-            onPress={() => Alert.alert('Added to Favorites!')}
-            />
-            <Button
-              title="Add to meal plan"
-              onPress={() => Alert.alert('Added to meal plan!')}
-            />
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => setModalVisible(!modalVisible)}
-            >
-              <Text style={styles.textStyle}>Hide Modal</Text>
-            </Pressable>
-          </View>
-        </View>
-      </Modal>
-      <Pressable
-        style={[styles.button, styles.buttonOpen]}
-        onPress={() => setModalVisible(true)}
-      >
-        <Text style={styles.textStyle}>(Select recipe)</Text>
-      </Pressable>
-      {searchBar()}
-      <p id="recipeResults">
-      </p>
-      <p id="recipeIDs"></p>
-      <div id="modal">
+    <SafeAreaView style={{flex:1,backgroundColor:"#FFC0CB"}}>
+      <View style={styles.centeredView}>
+        
 
-      </div>
-    </View>
+        {/* <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            Alert.alert("Modal has been closed.");
+            setModalVisible(!modalVisible);
+          }}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}> Recipe Name </Text>
+              
+              <Button
+              title="Favorite"
+              onPress={() => Alert.alert('Added to Favorites!')}
+              />
+              <Button
+                title="Add to meal plan"
+                onPress={() => Alert.alert('Added to meal plan!')}
+              />
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => setModalVisible(!modalVisible)}
+              >
+                <Text style={styles.textStyle}>Hide Modal</Text>
+              </Pressable>
+            </View>
+          </View>  
+        </Modal> */}
+
+        {/* <Pressable
+          style={[styles.button, styles.buttonOpen]}
+          onPress={() => setModalVisible(true)}
+        >
+          <Text style={styles.textStyle}>(Select recipe)</Text>
+        </Pressable> */}
+        <img 
+          id="koalaeat"
+          style={{
+            maxWidth: "65%",
+            height: "auto",
+            marginLeft: "auto",
+            marginRight: "auto",
+            display:"block"
+          }}
+          src={logo}>
+        </img>
+
+        {searchBar()}
+        <p id="recipeResults">
+        </p>
+        <p id="recipeIDs"></p>
+        <div id="modal">
+
+        </div>
+      </View>
+    </SafeAreaView>
   );
 }
 
