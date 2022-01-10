@@ -19,7 +19,6 @@ import {
 import HomeScreen from './pages/HomeScreen';
 import FoodScreen from './pages/FoodScreen';
 import ExerciseScreen from './pages/ExerciseScreen';
-import SleepScreen from './pages/SleepScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -47,12 +46,6 @@ function App() {
           options={{
             tabBarLabel: 'Exercise',
           }}  />
-        <Tab.Screen
-          name="Sleep"
-          component={SleepScreen}
-          options={{
-            tabBarLabel: 'Sleep',
-          }} />
       </Tab.Navigator>
     </NavigationContainer>
   );
