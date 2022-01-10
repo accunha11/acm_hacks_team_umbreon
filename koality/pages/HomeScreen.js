@@ -18,8 +18,33 @@ import {
 } from 'react-native';
 
 const HomeScreen = ({ navigation }) => {
+  
 
-  const username = "<user>";
+  //const [username, setUsername] = React.useState([]);
+  // React.useEffect(()=>{
+  //   fetch('localhost:3000/users/').then(res => {
+  //     console.log(res);
+  //     if(res.ok){
+  //       return res.json()
+  //     }
+  //   }).then(jsonResponse => setInitialState(jsonResponse.users))
+  // },[])
+
+  const username = "ACM Umbreon";
+  //const today_feeling = ["\n"];
+  const [today_feeling, setToday_feeling] = React.useState("\n");
+  var time = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+  
+
+  const [timesPressed, setTimesPressed] = React.useState(0);
+
+  let textLog = '';
+  if (timesPressed > 1) {
+    textLog = timesPressed + 'x onPress';
+  } else if (timesPressed > 0) {
+    textLog = 'onPress';
+  }
+
   return (
     <SafeAreaView style={{ flex: 1 , margin: "20px"}}>
       <View>
@@ -28,9 +53,20 @@ const HomeScreen = ({ navigation }) => {
         </Text>
 
         <Text style={styles.title}>
+        Today's Summary
+        </Text>
+
+        <Text style={styles.body}>
+        You felt...
+        {today_feeling}
+        </Text>
+        
+        <Text style={styles.title}>
         How are you feeling today?
         </Text>
+        
         <View style={styles.fixToText}>
+          
           <Pressable
             style = {{backgroundColor: "#fcb603", border:"0px", borderRadius:"20px", padding: "30px",
               margin: "20px", shadowOpacity: 0.25, shadowRadius: 4, shadowColor: "#000",
@@ -38,8 +74,19 @@ const HomeScreen = ({ navigation }) => {
                 width: 0,
                 height: 2
               },}}
-            onClick={() => Alert.alert('Happy button pressed')}
-          >
+
+          //   onPress={() => {
+          //     today_feeling.push("Sad");
+          //     //alert('Added \"Sad\" to today\'s feelings.');
+          //   }}
+          // >
+                //onPress={today_feeling.push("Sad\n")}>
+          onPress={() => {
+            setToday_feeling((current) => current.concat(time));
+            setToday_feeling((current) => current.concat(" - Happy\n"));
+            }}>
+
+
             <FontAwesomeIcon
               icon = {faLaughBeam}
               size="3x"
@@ -55,8 +102,15 @@ const HomeScreen = ({ navigation }) => {
                 width: 0,
                 height: 2
               },}}
-            onPress={() => Alert.alert('Calm button pressed')}
-          >
+              // onPress={() => {
+              //   setToday_feeling((current) => current.concat("Calm\n"));
+              //   }}>
+
+              onPress={() => {
+                setToday_feeling((current) => current.concat(time));
+                setToday_feeling((current) => current.concat(" - Calm\n"));
+                }}>    
+
             <FontAwesomeIcon
               icon = {faMeh}
               size="3x"
@@ -72,8 +126,10 @@ const HomeScreen = ({ navigation }) => {
                 width: 0,
                 height: 2
               },}}
-            onPress={() => Alert.alert('Angry button pressed')}
-          >
+              onPress={() => {
+                setToday_feeling((current) => current.concat(time));
+                setToday_feeling((current) => current.concat(" - Angry\n"));
+                }}>  
             <FontAwesomeIcon
               icon = {faAngry}
               size="3x"
@@ -91,7 +147,10 @@ const HomeScreen = ({ navigation }) => {
                 width: 0,
                 height: 2
               },}}
-            onPress={() => Alert.alert('Sad button pressed')}
+              onPress={() => {
+                setToday_feeling((current) => current.concat(time));
+                setToday_feeling((current) => current.concat(" - Sad\n"));
+                }}
           >
             <FontAwesomeIcon
               icon = {faFrown}
@@ -108,7 +167,10 @@ const HomeScreen = ({ navigation }) => {
                 width: 0,
                 height: 2
               },}}
-            onPress={() => Alert.alert('Stressed button pressed')}
+              onPress={() => {
+                setToday_feeling((current) => current.concat(time));
+                setToday_feeling((current) => current.concat(" - Stressed\n"));
+                }}
           >
             <FontAwesomeIcon
               icon = {faGrimace}
@@ -125,7 +187,10 @@ const HomeScreen = ({ navigation }) => {
                 width: 0,
                 height: 2
               },}}
-            onPress={() => Alert.alert('Tired button pressed')}
+              onPress={() => {
+                setToday_feeling((current) => current.concat(time));
+                setToday_feeling((current) => current.concat(" - Tired\n"));
+                }}
           >
             <FontAwesomeIcon
               icon = {faTired}
@@ -143,6 +208,11 @@ const HomeScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   title: {
+    fontSize: 18,
+    textAlign: 'center',
+    marginVertical: 8,
+  },
+  body: {
     textAlign: 'center',
     marginVertical: 8,
   },
