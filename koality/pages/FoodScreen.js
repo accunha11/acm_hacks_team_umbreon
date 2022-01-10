@@ -12,6 +12,10 @@ import {
   Pressable
  } from 'react-native';
 
+let results = 0;
+let resultsSize = 0;
+let exampleResults = ["this", "is", "an", "example", "list"];
+
 function handleSubmit(e) {
   e.preventDefault();
   console.log("meh");
@@ -25,10 +29,32 @@ function searchFood() {
   })
   .then(response => response.json())
   .then((jsonData) => {
-    const results = jsonData.map(element => element.title);
-    const urls = jsonData.map(element => `https://api.spoonacular.com/recipes/`+element.id+'/analyzedInstructions');
+    results = jsonData.map(element => element.title);
+    resultsSize = results.length;
+    const ids = jsonData.map(element => element.id);
     console.log(jsonData);
     getSearchResults(results);
+    getSearchIDs(ids);
+    //document.getElementById("recipeResults").innerHTML = makeButtonList(results);
+    makeButtonList(exampleResults);
+    detailedRecipe(ids);
+  });
+
+
+
+  let buttonArray = document.getElementById("recipeResults");
+  buttonArray = makeButtonList(exampleResults);
+}
+
+function detailedRecipe(ids) {
+  ids.forEach(id => {
+    fetch(`https://api.spoonacular.com/recipes/${id}/analyzedInstructions?apiKey=0a4860b8d01f4a61bd0787c2b4b7ad6f`, {
+      "method": "GET"
+    })
+    .then(response => response.json())
+    .then((jsonData) => {
+      console.log(jsonData);
+    });
   });
 }
 
@@ -41,6 +67,16 @@ function getSearchResults(results) {
   });
 }
 
+function getSearchIDs(ids) {
+  const list = document.getElementById("recipeIDs")
+  results.forEach(result => {
+    const element = document.createElement("li")
+    element.innerText = `https://spoonacular.com/${result}`;
+    list.appendChild(element);
+  });
+}
+
+
 function searchBar() {
   return (
     <form onSubmit={handleSubmit}>
@@ -49,6 +85,32 @@ function searchBar() {
       <button style={{bottom:"90%"}} onClick={searchFood}> Search </button>
     </form>
   )
+}
+
+function makeButton(data) {
+  return (
+    <form onSubmit={handleSubmit}>
+      <Pressable
+        onPress={() => setModalVisible(!modalVisible)}
+      >
+        <Text> ${data} </Text>
+      </Pressable>
+    </form>
+  )
+}
+
+function makeButtonList(results) {
+  //const list = document.getElementById("recipeResults")
+  const array = [];
+  results.forEach(result => {
+    const element = document.createElement("li")
+    element.innerHTML = makeButton(result)
+    array.push(element);
+  });
+  <div>
+    <button> hi </button>
+  </div>
+  //results.map
 }
 
 const FoodScreen = () => {
@@ -92,7 +154,12 @@ const FoodScreen = () => {
         <Text style={styles.textStyle}>(Select recipe)</Text>
       </Pressable>
       {searchBar()}
-      <p id="recipeResults"></p>
+      <p id="recipeResults">
+      </p>
+      <p id="recipeIDs"></p>
+      <div id="modal">
+
+      </div>
     </View>
   );
 }
